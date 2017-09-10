@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('twitch', 'SiteController@twitch')->name('twitch');
+Route::get('twitch/callback', 'SiteController@callback')->name('twitch-callback');
+Route::get('twitch/subscribers', 'SiteController@subscribers')->name('twitch-subscribers');
+Route::get('/', 'SiteController@index')->name('index');

@@ -96,9 +96,10 @@ class SiteController extends Controller
             if (strtolower($subscription->user->name) != strtolower($this->channelName)) {
                 $subscribers[] = [
                     'name' => $subscription->user->name,
+                    'date' => $subscription->created_at,
                     'displayName' => $subscription->user->display_name,
                     'logo' => $subscription->user->logo,
-                    'tier' => (int)$subscription->sub_plan / 1000,
+                    'tier' => $subscription->sub_plan == "Prime" ? "Prime" : (int)$subscription->sub_plan / 1000,
                 ];
             }
         }

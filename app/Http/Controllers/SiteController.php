@@ -83,7 +83,9 @@ class SiteController extends Controller
             'channels/' . $this->channelId . '/subscriptions?offset=' . $offset . '&limit=' . $limit . 'direction=' . $direction,
             $options);
 
-        if ($response->getStatusCode() !== 200) {
+        if ($response->getStatusCode() == 422) {
+            abort(422, json_decode($response->getBody()->getContents())->message);
+        } elseif ($response->getStatusCode() !== 200) {
             abort('200', '', ['Location' => route('index')]);
         }
 

@@ -55,7 +55,7 @@
     @endforeach
 </table>
 
-<script src="http://cdn.date-fns.org/v1.9.0/date_fns.min.js"></script>
+<script src="/js/date_fns.min.js"></script>
 <script>
     $(document).ready(function () {
         $(".sub-date").each(function(v){

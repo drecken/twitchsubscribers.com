@@ -85,7 +85,7 @@
         </form>
     </div>
     
-    <table class="highlight" id="subscribersTable" data-order='[[ 1, "desc" ]]' data-page-length='10'>
+    <table class="highlight" id="subscribersTable" data-order='[[ 1, "asc" ]]' data-page-length='10'>
         <thead>
             <tr>
                 <th>Sub Date</th>

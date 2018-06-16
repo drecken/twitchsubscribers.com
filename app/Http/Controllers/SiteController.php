@@ -71,7 +71,7 @@ class SiteController extends Controller
             }
         }
 
-        return view('subscribers', compact('subscribers'));
+        return view('subscribers', compact('subscribers', 'counts'));
     }
 
     protected function getSubscriptions($offset = 0, $limit = 100, $direction = 'asc')

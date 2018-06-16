@@ -52,8 +52,15 @@ class SiteController extends Controller
         } while (!empty($fetchedSubscribers));
 
         $subscribers = [];
+        $counts = [
+            'prime' => 0,
+            '1' => 0,
+            '2' => 0,
+            '3' => 0,
+        ];
 
         foreach ($allSubscribers as $subscriber) {
+            $counts[$subscriber['tier']] += 1;
             if (
                 !empty($subscribers[$subscriber['name']])
                 && $subscribers[$subscriber['name']]['tier'] < $subscriber['tier']
@@ -80,7 +87,7 @@ class SiteController extends Controller
 
         $client = new Client(['base_uri' => 'https://api.twitch.tv/kraken/']);
         $response = $client->request('GET',
-            'channels/' . $this->channelId . '/subscriptions?offset=' . $offset . '&limit=' . $limit . 'direction=' . $direction,
+            'channels/' . $this->channelId . '/subscriptions?offset=' . $offset . '&limit=' . $limit . '&direction=' . $direction,
             $options);
 
         if ($response->getStatusCode() == 422) {
@@ -88,9 +95,9 @@ class SiteController extends Controller
         } elseif ($response->getStatusCode() !== 200) {
             abort('200', '', ['Location' => route('index')]);
         }
-
         $body = $response->getBody();
-        $object = (json_decode((string)$body));
+        $object = (json_decode((string) $body));
+
         $subscriptions = $object->subscriptions;
         $subscribers = [];
 
@@ -101,7 +108,7 @@ class SiteController extends Controller
                     'date' => $subscription->created_at,
                     'displayName' => $subscription->user->display_name,
                     'logo' => $subscription->user->logo,
-                    'tier' => $subscription->sub_plan == "Prime" ? "Prime" : (int)$subscription->sub_plan / 1000,
+                    'tier' => $subscription->sub_plan == "Prime" ? "prime" : (int) $subscription->sub_plan / 1000,
                 ];
             }
         }

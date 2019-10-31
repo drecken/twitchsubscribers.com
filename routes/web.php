@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('twitch', 'SiteController@twitch')->name('twitch');
-Route::get('twitch/callback', 'SiteController@callback')->name('twitch-callback');
-Route::get('twitch/subscribers', 'SiteController@subscribers')->name('twitch-subscribers');
 Route::get('/', 'SiteController@index')->name('index');
+
+Route::name('twitch.')->prefix('twitch')->group(function () {
+    Route::get('authorize', 'TwitchController@getAuthorization')->name('authorize');
+    Route::get('callback', 'TwitchController@callback')->name('callback');
+    Route::get('subscribers', 'TwitchController@subscribers')->name('subscribers');
+});

@@ -30,9 +30,11 @@ class TwitchController extends Controller
 
         $response = $client->request('POST ', $url);
 
-        session([
-            'token' => json_decode($response->getBody()->getContents())->access_token,
-        ]);
+        session(
+            [
+                'token' => json_decode($response->getBody()->getContents())->access_token,
+            ]
+        );
 
         return redirect()->route('twitch.subscribers');
     }
@@ -54,7 +56,6 @@ class TwitchController extends Controller
         }
 
         return view('subscribers', compact('subscribers', 'counts'));
-
     }
 
     protected function getBroadcasterId()
@@ -108,7 +109,6 @@ class TwitchController extends Controller
                 $subscribers[$user['id']]['displayName'] = $user['display_name'];
                 $subscribers[$user['id']]['logo'] = $user['profile_image_url'];
             }
-
         }
 
         return $subscribers;
@@ -169,10 +169,11 @@ class TwitchController extends Controller
             }
 
             $decodedResponse = json_decode($response->getBody()->getContents(), true);
-            $cursor = $decodedResponse['pagination']['cursor'];
+            if (isset($decodedResponse['pagination']['cursor'])) {
+                $cursor = $decodedResponse['pagination']['cursor'];
+            }
 
             $subscriptions = array_merge($subscriptions, $decodedResponse['data']);
-
         } while (!empty($decodedResponse['data']));
 
         return $subscriptions;

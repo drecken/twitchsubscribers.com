@@ -150,7 +150,7 @@ class TwitchController extends Controller
         ];
 
         $subscriptions = [];
-        $perPage = 1;
+        $perPage = 100;
 
         do {
             $url = 'subscriptions?broadcaster_id=' . $broadcasterId .

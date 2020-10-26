@@ -39,3 +39,10 @@ services:
       - mysql
     networks:
       - laravel
+
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    networks:
+      - laravel

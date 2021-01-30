@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Subscription;
 use App\Models\User;
 use App\Twitch\Helix;
 use Carbon\Carbon;
@@ -63,6 +64,7 @@ class SynchronizeSubscriptions implements ShouldQueue
 
     protected function synchronizeSubscriptions()
     {
+        Subscription::where('broadcaster_id', $this->user->id)->delete();
         foreach ($this->subscriptions->chunk(100) as $subscriptions) {
             DB::table('subscriptions')->upsert(
                 $subscriptions->map(

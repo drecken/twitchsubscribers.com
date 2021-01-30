@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\SubscribersController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,16 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get(
-    '/',
-    function () {
-        return view('index');
-    }
-);
-
-Route::get('subscribers', [SubscribersController::class, 'index'])->name('subscribers.index');
-Route::get('fetch-subscribers', [SubscribersController::class, 'fetch'])->name('subscribers.fetch');
-Route::get('synchronize-subscribers', [SubscribersController::class, 'synchronize'])->name('subscribers.synchronize');
-
+Route::get('/', [SiteController::class, 'index'])->name('index');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('login/twitch', [LoginController::class, 'redirectToProvider'])->name('login-twitch');
 Route::get('login/twitch/callback', [LoginController::class, 'handleProviderCallback']);
+
+Route::middleware('auth')->group(
+    function () {
+        Route::get('user', [SiteController::class, 'user'])->name('user');
+        Route::get('subscribers', [SubscribersController::class, 'index'])->name('subscribers.index');
+        Route::get('fetch-subscribers', [SubscribersController::class, 'fetch'])->name('subscribers.fetch');
+        Route::get('synchronize-subscribers', [SubscribersController::class, 'synchronize'])
+            ->name('subscribers.synchronize');
+    }
+);

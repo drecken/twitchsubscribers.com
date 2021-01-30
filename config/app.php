@@ -2,6 +2,8 @@
 
 return [
 
+    'synchronize_cooldown_seconds' => env('SYNCHONIZE_COOLDOWN_SECONDS', 86400),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

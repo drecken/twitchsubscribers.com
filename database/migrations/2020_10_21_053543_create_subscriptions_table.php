@@ -20,6 +20,8 @@ class CreateSubscriptionsTable extends Migration
                 $table->foreignId('subscriber_id')->constrained('users');
                 $table->foreignId('gifter_id')->nullable()->constrained('users');
                 $table->string('tier');
+
+                $table->index(['broadcaster_id', 'subscriber_id']);
             }
         );
     }

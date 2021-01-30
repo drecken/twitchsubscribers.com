@@ -16,6 +16,7 @@ class User extends Authenticatable
         'id',
         'name',
         'avatar',
+        'twitch_synced_at',
     ];
 
     protected $hidden = [
@@ -23,5 +24,10 @@ class User extends Authenticatable
         'twitch_remember_token',
         'remember_token',
     ];
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class, 'broadcaster_id');
+    }
 
 }
